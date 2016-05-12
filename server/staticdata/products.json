@@ -1,0 +1,24 @@
+{
+  "FR1": {
+    "code": "FR1",
+    "description": "Fruit tea",
+    "price": 3.11,
+    "discount": "bogof",
+    "image": "fruit-tea.jpg"
+  },
+  "SR1": {
+    "code": "SR1",
+    "description": "Strawberries",
+    "price": 5,
+    "discount": "qty-discount",
+    "gteQty": 3,
+    "discountPrice": 4.5,
+    "image": "strawberries.jpg"
+  },
+  "CF1": {
+    "code": "CF1",
+    "description": "Coffee",
+    "price": 11.23,
+    "image": "coffee.jpg"
+  }
+}

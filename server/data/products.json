@@ -1,0 +1,30 @@
+[
+  {
+    "code": "FR1",
+    "description": "Fruit tea",
+    "price": 3.11,
+    "discount": {
+      "code": "bogof",
+      "description": "Buy one get one free"
+    },
+    "image": "fruit-tea.jpg"
+  },
+  {
+    "code": "SR1",
+    "description": "Strawberries",
+    "price": 5,
+    "discount": {
+      "code": "qty-discount",
+      "description": "Buy 3 or more and price goes down to £4.50",
+      "gteQty": 3,
+      "price": 4.5
+    },
+    "image": "strawberries.jpg"
+  },
+  {
+    "code": "CF1",
+    "description": "Coffee",
+    "price": 11.23,
+    "image": "coffee.jpg"
+  }
+]
