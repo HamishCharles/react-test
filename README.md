@@ -19,7 +19,7 @@ then
 ## Development Journey
 
 #### Template
-The Yeoman template includes Express for the server and there are two paths - one to serve the index and the other the product data ````/api/products````. I used the npm library Superagent to simplify the handling of XMLHttpRequest from the client. The template includes Bootstrap making the implementation of a responsive design straightforward. I've used of ES6+ and this transpiles with Babel.
+The Yeoman template includes Express for the server and there are two paths - one to serve the index and the other the product data ````/api/products````. I used the npm library Superagent to simplify the handling of XMLHttpRequest from the client. The template includes Bootstrap making the implementation of a responsive design straightforward. I've used ES6+ and this transpiles with Babel.
 
 #### Datastore
 A simple hand coded datastore was created to handle the need for both the product catalog component and the basket component to interact with the basket data. It has a simple but effective sub/unsub mechanism to enable the React basket component to re-render when changes are made to the data. I did not create a datastore for the product data but in a real-life application this would be required.
