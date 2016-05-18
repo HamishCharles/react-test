@@ -1,33 +1,35 @@
 var Discounts = require('./discounts');
+var Immutable = require('immutable');
+
 
 var DatastoreBasket = function() {
 
-  var basket = {
-    items: [],
+  var basket = Immutable.Map({
+    items: Immutable.List([]),
     total: 0,
     savings: 0
-  },
+  }),
       subs = [];
+  const BASKET = 'basket';
 
   // restore from storage if a previous session left anything
   storageRestore();
 
   function getBasket () {
-    return basket;
+    return basket.toJS();
   }
 
-  function addToBasket (item) {
-    basket.items.push(item);
+  function addToBasket (item) {    basket = basket.set('items', basket.get('items').push(item) );
     afterUpdate();
   }
 
   function removeFromBasket (index) {
-    basket.items.splice(index,1);
+    basket = basket.set('items', basket.get('items').delete(index) );
     afterUpdate();
   }
 
   function emptyBasket () {
-    basket.items = [];
+    basket = basket.set('items', basket.get('items').clear() );
     afterUpdate();
   }
 
@@ -40,12 +42,11 @@ var DatastoreBasket = function() {
   }
 
   function basketPublish () {
-    subs.forEach( sub => sub.fn.call(sub.scope, basket));
+    subs.forEach( sub => sub.fn.call(sub.scope, getBasket()));
   }
 
   function basketComputeTotals () {
-
-    var countItems = basket.items.reduce( (count, item) => {
+    var countItems = basket.get('items').reduce( (count, item) => {
       if (count[item.code]) {
         ++count[item.code].qty;
       } else {
@@ -68,20 +69,21 @@ var DatastoreBasket = function() {
        }
     },0);
 
-    basket.total = grandTotal - discountTotal;
-    basket.savings = discountTotal;
+    basket = basket.set('total', grandTotal - discountTotal );
+    basket = basket.set('savings', discountTotal );
 
   }
 
   function storageSave () {
-
-    localStorage.setItem('basket', JSON.stringify(basket));
+    localStorage.setItem(BASKET, JSON.stringify(basket.toJS()));
   }
 
   function storageRestore () {
     var storedBasket;
-    if (storedBasket = localStorage.getItem('basket')) {
-      basket = JSON.parse(storedBasket);
+    if (storedBasket = localStorage.getItem(BASKET)) {
+      storedBasket = JSON.parse(storedBasket);
+      storedBasket.items = Immutable.List(storedBasket.items);
+      basket = Immutable.Map(storedBasket);
       basketPublish();
     }
   }

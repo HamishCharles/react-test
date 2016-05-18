@@ -1,5 +1,6 @@
 
 describe('datastore basket', function () {
+  var Basket, products;
 
   beforeEach(function() {
     Basket = require('../../client/scripts/datastore/datastore-Basket.js');
@@ -11,22 +12,28 @@ describe('datastore basket', function () {
 
   it('should correctly add and remove items from basket, retrieve basket and workout totals', function (done) {
     localStorage.clear();
+
     Basket.add(products[0]);
     Basket.add(products[0]);
     var basket = Basket.get();
     basket.items.length.should.equal(2);
-    var total =  basket.total.toFixed(2);
     basket.total.toFixed(2).should.equal('3.11');
     basket.savings.toFixed(2).should.equal('3.11');
+
     Basket.add(products[0]);
+    basket = Basket.get();
     basket.items.length.should.equal(3);
     basket.total.toFixed(2).should.equal('6.22');
     basket.savings.toFixed(2).should.equal('3.11');
+
     Basket.add(products[0]);
+    basket = Basket.get();
     basket.items.length.should.equal(4);
     basket.total.toFixed(2).should.equal('6.22');
     basket.savings.toFixed(2).should.equal('6.22');
-    Basket.remove(products[0]);
+
+    Basket.remove(0);
+    basket = Basket.get();
     basket.items.length.should.equal(3);
     basket.total.toFixed(2).should.equal('6.22');
     basket.savings.toFixed(2).should.equal('3.11');
@@ -36,8 +43,8 @@ describe('datastore basket', function () {
   it('should correctly empty basket', function (done) {
     Basket.add(products[0]);
     Basket.add(products[0]);
-    var basket = Basket.get();
     Basket.empty();
+    var basket = Basket.get();
     basket.items.length.should.equal(0);
     basket.total.should.equal(0);
     basket.savings.should.equal(0);
